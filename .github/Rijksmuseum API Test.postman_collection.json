@@ -1,0 +1,644 @@
+{
+	"info": {
+		"_postman_id": "d42f138f-63a4-4905-9d19-cfe3cbd214b1",
+		"name": "Rijksmuseum API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "13408312"
+	},
+	"item": [
+		{
+			"name": "Collection API",
+			"item": [
+				{
+					"name": "Verify Valid Key cases",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"// Test Case 1: Verify for  Valid  Key",
+									"pm.test(\"Verify Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"// Test Case 2: Verify response contains data",
+									"pm.test(\"Verify Response contains data for valid key\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.artObjects.length).to.be.above(0);",
+									"});",
+									"",
+									"// Test Case 3: Verify response format is json",
+									"pm.test(\"Verify response format is json\", function () {",
+									"     pm.response.to.be.ok;",
+									"     pm.response.to.be.withBody;",
+									"     pm.response.to.be.json;",
+									"});",
+									"",
+									"",
+									"// Parse the response JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Define the expected ",
+									"var expectedprincipalOrFirstMaker = \"Pieter Jansz. Saenredam\"",
+									"var expectedtitle = \"Interieur van de Sint-Odulphuskerk in Assendelft\"",
+									"var expectedobjectnumber = \"SK-C-217\";",
+									"var expectedid = 'nl-SK-C-217'",
+									"",
+									"",
+									"// Test Case 4: Verify the principalOrFirstMaker Name in the Response",
+									"pm.test(\"Verify the principalOrFirstMaker name in the response\", function () {",
+									"    // Check if the 'principalOrFirstMaker' field in the response matches  ",
+									"    pm.expect(jsonData.artObjects[3].principalOrFirstMaker).to.equal(expectedprincipalOrFirstMaker);",
+									"});",
+									"// Test Case 5: Verify the name  in the Response",
+									"pm.test(\"Verify the title name in the response\", function () {",
+									"    // Check if the 'title' field in the response matches  ",
+									"    pm.expect(jsonData.artObjects[3].title).to.equal(expectedtitle);",
+									"});",
+									"",
+									"// Test Case 6: Verify the objectnumber  in the Response",
+									"pm.test(\"Verify the objectnumber  in the response\", function () {",
+									"    // Check if the 'objectnumber' field in the response matches  ",
+									"    pm.expect(jsonData.artObjects[3].objectNumber).to.equal(expectedobjectnumber);",
+									"});",
+									"",
+									"// Test Case 7: Verify the id  in the Response",
+									"pm.test(\"Verify the id  in the response\", function () {",
+									"    // Check if the 'id' field in the response matches  ",
+									"    pm.expect(jsonData.artObjects[3].id).to.equal(expectedid);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection?key=0fiuZFh4&format=json",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZFh4"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Invalid Key cases",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"",
+									"// Test Case 2: Check for an Invalid API Key",
+									"pm.test(\"Invalid key\", function () {",
+									"    ",
+									"    var expectedErrorMessage = \"Invalid key\"; ",
+									"",
+									"    // Check if the response status code is 401 (Unauthorized) ",
+									"    pm.expect(pm.response.code).to.equal(401);",
+									"",
+									"    // Check if the response body contains the expected error message",
+									"    pm.expect(pm.response.text()).to.include(expectedErrorMessage);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection?key=0fiuZ",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZ"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify type of format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test Case 9: Verify the response format is XML",
+									"",
+									"pm.test(\"Verify response format is XML\", function () {",
+									"    // Get the 'Content-Type' header from the response",
+									"    var contentType = pm.response.headers.get(\"Content-Type\");",
+									"",
+									"    // Check if the 'Content-Type' header contains 'xml'",
+									"    pm.expect(contentType).to.include(\"xml\");",
+									"});",
+									"",
+									" ",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection?key=0fiuZFh4&culture=en&format=xml",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZFh4"
+								},
+								{
+									"key": "culture",
+									"value": "en"
+								},
+								{
+									"key": "format",
+									"value": "xml"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Collection Details API",
+			"item": [
+				{
+					"name": "Verify Valid key and Objectnumber",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"",
+									"// Test Case 1: Verify for an Valid  Key and objectnumber",
+									"pm.test(\"Verify Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"// Test Case 2: Verify format is json ",
+									"pm.test(\"Verify Response has the correct Content-Type as JSON\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\"); ",
+									"});",
+									"",
+									"",
+									"",
+									"// Parse the response JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Define the expected  ",
+									"var expectedtitle = \"Portret van een vrouw, mogelijk Maria Trip\";",
+									"var expectedobjectnumber = \"SK-C-597\";",
+									"var expectedid = \"nl-SK-C-597\"",
+									"var expectedlanguage = \"nl\"",
+									"",
+									"// Test Case 3: Verify the title  in the Response",
+									"pm.test(\"Verify the title name in the response\", function () {",
+									"    // Check if the 'objectNumber' field in the response matches  ",
+									"    pm.expect(jsonData.artObject.title).to.equal(expectedtitle);",
+									"});",
+									"",
+									"// Test Case 4: Verify the objectnumber  in the Response",
+									"pm.test(\"Verify the objectnumber  in the response\", function () {",
+									"    // Check if the 'objectnumber' field in the response matches  ",
+									"    pm.expect(jsonData.artObject.objectNumber).to.equal(expectedobjectnumber);",
+									"});",
+									"",
+									"// Test Case 5: Verify the id  in the Response",
+									"pm.test(\"Verify the id  in the response\", function () {",
+									"    // Check if the 'id' field in the response matches  ",
+									"    pm.expect(jsonData.artObject.id).to.equal(expectedid);",
+									"});",
+									"",
+									"// Test Case 6: Verify the language nl in the Response",
+									"pm.test(\"Verify the language  in the response\", function () {",
+									"    // Check if the 'language' field in the response matches  ",
+									"    pm.expect(jsonData.artObject.language).to.equal(expectedlanguage);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection/SK-C-597?key=0fiuZFh4",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection",
+								"SK-C-597"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZFh4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Invalid key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"",
+									"// Test Case 1: Check for an Valid  Key and objectnumber",
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"// Test Case 2: Check format is json ",
+									"pm.test(\"Response has the correct Content-Type as JSON\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\"); ",
+									"});",
+									"",
+									"",
+									"",
+									"// Parse the response JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Define the expected  ",
+									"var expectedtitle = \"Portret van een vrouw, mogelijk Maria Trip\";",
+									"var expectedobjectnumber = \"SK-C-597\";",
+									"var expectedid = \"nl-SK-C-597\"",
+									"",
+									"// Test Case 4: Verify the title  in the Response",
+									"pm.test(\"Verify the title name in the response\", function () {",
+									"    // Check if the 'objectNumber' field in the response matches  ",
+									"    pm.expect(jsonData.artObject.title).to.equal(expectedtitle);",
+									"});",
+									"",
+									"// Test Case 5: Verify the objectnumber  in the Response",
+									"pm.test(\"Verify the objectnumber  in the response\", function () {",
+									"    // Check if the 'objectnumber' field in the response matches  ",
+									"    pm.expect(jsonData.artObject.objectNumber).to.equal(expectedobjectnumber);",
+									"});",
+									"",
+									"// Test Case 5: Verify the id  in the Response",
+									"pm.test(\"Verify the id  in the response\", function () {",
+									"    // Check if the 'id' field in the response matches  ",
+									"    pm.expect(jsonData.artObject.id).to.equal(expectedid);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection/SK-C-597?key=0fiuZFh4",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection",
+								"SK-C-597"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZFh4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Invalid objectnumber",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"// Test Case 8: Verify invalid objectnumber  in the Response",
+									"pm.test(\"Verify Invalid object number\", function () {",
+									"    ",
+									"    var expectedErrorMessage = \"Invalid object number\"; ",
+									"",
+									"    // Check if the response status code is 404",
+									"    pm.expect(pm.response.code).to.equal(404);",
+									"",
+									"    // Check if the response body contains the expected error message",
+									"    pm.expect(pm.response.text()).to.include(expectedErrorMessage);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection/SK-C-?key=0fiuZFh4",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection",
+								"SK-C-"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZFh4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Format type as XML",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test Case 8: Verify XML format  in the Response",
+									"",
+									"pm.test(\"Verify response format is XML\", function () {",
+									"    // Get the 'Content-Type' header from the response",
+									"    var contentType = pm.response.headers.get(\"Content-Type\");",
+									"",
+									"    // Check if the 'Content-Type' header contains 'xml'",
+									"    pm.expect(contentType).to.include(\"application/xml; charset=utf-8\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection/SK-C-597?key=0fiuZFh4&format=XML",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection",
+								"SK-C-597"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZFh4"
+								},
+								{
+									"key": "format",
+									"value": "XML"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify language as en",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"// Define the expected  ",
+									"",
+									"var expectedlanguage = \"en\"",
+									"// Test Case 10 : Verify the language en in the Response",
+									"pm.test(\"Verify the language  in the response\", function () {",
+									"    // Check if the 'language' field in the response matches  ",
+									"    pm.expect(jsonData.artObject.language).to.equal(expectedlanguage);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection/SK-C-597?key=0fiuZFh4&language =en",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection",
+								"SK-C-597"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZFh4"
+								},
+								{
+									"key": "language ",
+									"value": "en"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Collection Image API",
+			"item": [
+				{
+					"name": "Verify Valid key and object number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"// Test Case 1: Verify for  Valid  Key status code",
+									"pm.test(\"Verify Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Parse the response JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Define the expected  ",
+									"var expectedname = \"z3\"",
+									"var expectedwidth = 1400 ",
+									"var expectedheight = 1165; ",
+									"var expectedx = 2;",
+									"var expectedy = 0;",
+									"var expectedurl = \"http://lh3.googleusercontent.com/kRPnUXsQSnT3ArTDzrZV3sR8W319W-PNoTtR0JY5sUPnKGUEQXLkXqpwyuH0itllQs8XmYKdCY0yAvJY1l61WROh5UvHgHjMS1XJv2o=s0\";",
+									"",
+									"",
+									"// Test Case 2: Verify specific title  in the Response",
+									"pm.test(\"Verify the name  in the response\", function () {",
+									"    // Check if the 'name' field in the response matches  ",
+									"     pm.expect(jsonData.levels[0].name).to.equal(expectedname);",
+									"});",
+									"",
+									"// Test Case 3: Verify specific width  in the Response",
+									"pm.test(\"Verify the width  in the response\", function () {",
+									"    // Check if the 'width' field in the response matches  ",
+									"     pm.expect(jsonData.levels[0].width).to.equal(expectedwidth);",
+									"});",
+									"",
+									"// Test Case 4: Verify specific height  in the Response",
+									"pm.test(\"Verify the height in the response\", function () {",
+									"    // Check if the 'width' field in the response matches  ",
+									"     pm.expect(jsonData.levels[0].height).to.equal(expectedheight);",
+									"});",
+									"",
+									"// Test Case 5: Verify specific value of x  in the Response",
+									"pm.test(\"Verify the x in the response\", function () {",
+									"    // Check if the 'x' field in the response matches  ",
+									"     pm.expect(jsonData.levels[0].tiles[0].x).to.equal(expectedx);",
+									"});",
+									"",
+									"// Test Case 6: Verify specific value of y  in the Response",
+									"pm.test(\"Verify the x in the response\", function () {",
+									"    // Check if the 'y' field in the response matches  ",
+									"     pm.expect(jsonData.levels[0].tiles[0].y).to.equal(expectedy);",
+									"});",
+									"",
+									"// Test Case 7: Verify specific value of url  in the Response",
+									"pm.test(\"Verify the url in the response\", function () {",
+									"    // Check if the 'url' field in the response matches  ",
+									"     pm.expect(jsonData.levels[0].tiles[0].url).to.equal(expectedurl);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.rijksmuseum.nl/api/nl/collection/SK-C-5/tiles?key=0fiuZFh4",
+							"protocol": "https",
+							"host": [
+								"www",
+								"rijksmuseum",
+								"nl"
+							],
+							"path": [
+								"api",
+								"nl",
+								"collection",
+								"SK-C-5",
+								"tiles"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "0fiuZFh4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
